@@ -1,0 +1,61 @@
+version: '3'
+
+services:
+  roscore:
+    image: osrf/ros:noetic-desktop-full
+    network_mode: host
+    command: stdbuf -o L roscore
+
+  gazebo:
+    build:
+      context: .
+      dockerfile: sim-dockerfile
+    image: ros_kortex_demo/gazebo:latest
+    environment:
+      - DISPLAY=${DISPLAY}
+      - "QT_X11_NO_MITSHM=1"
+    volumes:
+      - "/tmp/.X11-unix:/tmp/.X11-unix:rw"
+      - ros_kortex_demo:/ros_kortex
+    network_mode: host
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+    depends_on:
+      - roscore
+    command: roslaunch kortex_gazebo spawn_kortex_robot.launch dof:="6" gripper:="" start_rviz:="false" --wait
+
+  rviz:
+    build:
+      context: .
+      dockerfile: sim-dockerfile
+    image: ros_kortex_demo/rviz:latest
+    environment:
+      - DISPLAY=${DISPLAY}
+      - "QT_X11_NO_MITSHM=1"
+    volumes:
+      - "/tmp/.X11-unix:/tmp/.X11-unix:rw"
+      - ros_kortex_demo:/ros_kortex
+    network_mode: host
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+    depends_on:
+      - roscore
+    command: rosrun rviz rviz -d `gen3_move_it_config`/launch/moveit.rviz
+
+volumes:
+  ros_kortex_demo:
+   driver: local
+   driver_opts:
+    o: bind
+    type: none
+    device: ../ros_kortex

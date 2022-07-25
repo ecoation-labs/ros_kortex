@@ -36,7 +36,7 @@ services:
     network_mode: host
     depends_on:
       - roscore
-    command: rosrun rviz rviz -d `kortex_scripts`/rviz/moveit.rviz
+    command: rosrun rviz rviz -d `rospack find kortex_scripts`/rviz/real_arm_rviz_config_1.rviz
 
 volumes:
   ros_kortex_demo:

@@ -10,13 +10,13 @@ services:
     build:
       context: .
       dockerfile: dockerfile
-    image: ros_kortex_demo/gazebo:latest
+    image: ros_kortex_demo_2/gazebo:latest
     environment:
       - DISPLAY=${DISPLAY}
       - "QT_X11_NO_MITSHM=1"
     volumes:
       - "/tmp/.X11-unix:/tmp/.X11-unix:rw"
-      - ros_kortex_demo:/ros_kortex
+      - ros_kortex_demo_2:/ros_kortex
     network_mode: host
     # deploy:
     #   resources:
@@ -33,13 +33,13 @@ services:
     build:
       context: .
       dockerfile: dockerfile
-    image: ros_kortex_demo/rviz:latest
+    image: ros_kortex_demo_2/rviz:latest
     environment:
       - DISPLAY=${DISPLAY}
       - "QT_X11_NO_MITSHM=1"
     volumes:
       - "/tmp/.X11-unix:/tmp/.X11-unix:rw"
-      - ros_kortex_demo:/ros_kortex
+      - ros_kortex_demo_2:/ros_kortex
     network_mode: host
     # deploy:
     #   resources:
@@ -50,12 +50,14 @@ services:
     #           capabilities: [gpu]
     depends_on:
       - roscore
-    command: rosrun rviz rviz -d "kortex_scripts/rviz/moveit.rviz"
+    command: rosrun rviz rviz -d `rospack find kortex_scripts`/rviz/real_arm_rviz_config_1.rviz
 
 volumes:
-  ros_kortex_demo:
+  ros_kortex_demo_2:
    driver: local
    driver_opts:
     o: bind
     type: none
     device: ../ros_kortex
+
+    #TODO: FIX VOLUME NAMES TO BE DIFFERENT AND FIX RVIZ

@@ -26,8 +26,9 @@ class KortexPathExecuter:
             with open(file_path, 'r') as file_open:
                 self.contents =  yaml.unsafe_load(file_open)
             
-            for x in range(len(self.contents)):
-                self.group.execute(self.contents[x])
+            for i in range(2):
+                for x in range(len(self.contents)):
+                    self.group.execute(self.contents[x])
 
     def goto_start(self):
         group_variable_values = self.group.get_current_joint_values()
@@ -37,8 +38,6 @@ class KortexPathExecuter:
         # group_variable_values[0] = 3.1343
         self.group.set_joint_value_target(group_variable_values)
         plan2 = self.group.plan()
-        self.group.go(wait=True)
-
 
     def __init__(self):
         rospy.init_node('path_executer_service', anonymous=True)

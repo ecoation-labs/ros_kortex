@@ -26,8 +26,9 @@ class KortexPathExecuter:
             with open(file_path, 'r') as file_open:
                 self.contents =  yaml.unsafe_load(file_open)
             
-            for x in range(len(self.contents)):
-                self.group.execute(self.contents[x])
+            for i in range(2):
+                for x in range(len(self.contents)):
+                    self.group.execute(self.contents[x])
 
     def goto_start(self):
         group_variable_values = self.group.get_current_joint_values()

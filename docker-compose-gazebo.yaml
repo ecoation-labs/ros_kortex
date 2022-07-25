@@ -50,7 +50,30 @@ services:
     #           capabilities: [gpu]
     depends_on:
       - roscore
-    command: rosrun rviz rviz -d `rospack find kortex_scripts`/rviz/real_arm_rviz_config_1.rviz
+    command: roslaunch kortex_scripts launch_rviz.launch
+
+  rqt:
+    build:
+      context: .
+      dockerfile: dockerfile
+    image: ros_kortex_demo_2/rviz:latest
+    environment:
+      - DISPLAY=${DISPLAY}
+      - "QT_X11_NO_MITSHM=1"
+    volumes:
+      - "/tmp/.X11-unix:/tmp/.X11-unix:rw"
+      - ros_kortex_demo_2:/ros_kortex
+    network_mode: host
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+    depends_on:
+      - roscore
+    command: rqt
 
 volumes:
   ros_kortex_demo_2:
@@ -59,5 +82,3 @@ volumes:
     o: bind
     type: none
     device: ../ros_kortex
-
-    #TODO: FIX VOLUME NAMES TO BE DIFFERENT AND FIX RVIZ

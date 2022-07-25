@@ -9,7 +9,7 @@ services:
   gazebo:
     build:
       context: .
-      dockerfile: sim-dockerfile
+      dockerfile: dockerfile
     image: ros_kortex_demo/gazebo:latest
     environment:
       - DISPLAY=${DISPLAY}
@@ -32,7 +32,7 @@ services:
   rviz:
     build:
       context: .
-      dockerfile: sim-dockerfile
+      dockerfile: dockerfile
     image: ros_kortex_demo/rviz:latest
     environment:
       - DISPLAY=${DISPLAY}

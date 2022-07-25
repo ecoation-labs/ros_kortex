@@ -1,3 +1,37 @@
+# To RUN Simulation:
+
+## Terminal 1
+
+        cd ros_kortex
+        xhost +local:docker
+        docker-compose -f docker-compose-gazebo.yaml up
+
+## Terminal 2
+
+        cd ros_kortex
+        docker exec -it ros_kortex_gazebo_1 bash
+        roslaunch kortex_examples cartesian_poses_with_notifications_python.launch
+        roslaunch kortex_scripts moveit_example.launch
+        roslaunch kortex_examples waypoint_action_client_python.launch
+        roslaunch kortex_examples full_arm_movement_python.launch
+
+# To RUN Real Arm:
+
+## Terminal 1
+
+        cd ros_kortex
+        xhost +local:docker
+        docker-compose -f docker-compose-driver.yaml up
+
+## Terminal 2
+
+        cd ros_kortex
+        docker exec -it ros_kortex_driver_1 bash
+        roslaunch kortex_examples cartesian_poses_with_notifications_python.launch
+        roslaunch kortex_scripts moveit_example.launch
+        roslaunch kortex_examples waypoint_action_client_python.launch
+        roslaunch kortex_examples full_arm_movement_python.launch
+
 # ros_kortex
 ROS Kortex is the official ROS package to interact with Kortex and its related products. It is built upon the Kortex API, documentation for which can be found in the [GitHub Kortex repository](https://github.com/Kinovarobotics/kortex).
 

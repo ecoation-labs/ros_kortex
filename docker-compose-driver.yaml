@@ -1,0 +1,47 @@
+version: '3'
+
+services:
+  roscore:
+    image: osrf/ros:noetic-desktop-full
+    network_mode: host
+    command: stdbuf -o L roscore
+
+  driver:
+    build:
+      context: .
+      dockerfile: dockerfile
+    image: ros_kortex_demo/driver:latest
+    environment:
+      - DISPLAY=${DISPLAY}
+      - "QT_X11_NO_MITSHM=1"
+    volumes:
+      - "/tmp/.X11-unix:/tmp/.X11-unix:rw"
+      - ros_kortex_demo:/ros_kortex
+    network_mode: host
+    depends_on:
+      - roscore
+    command: roslaunch kortex_driver kortex_driver.launch ip_address:="11.11.0.2" --wait
+
+  rviz:
+    build:
+      context: .
+      dockerfile: dockerfile
+    image: ros_kortex_demo/rviz:latest
+    environment:
+      - DISPLAY=${DISPLAY}
+      - "QT_X11_NO_MITSHM=1"
+    volumes:
+      - "/tmp/.X11-unix:/tmp/.X11-unix:rw"
+      - ros_kortex_demo:/ros_kortex
+    network_mode: host
+    depends_on:
+      - roscore
+    command: rosrun rviz rviz -d `gen3_move_it_config`/launch/moveit.rviz
+
+volumes:
+  ros_kortex_demo:
+   driver: local
+   driver_opts:
+    o: bind
+    type: none
+    device: ../ros_kortex

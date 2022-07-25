@@ -17,6 +17,8 @@
 
 # To RUN Real Arm:
 
+### If the ip address of the arm is not 11.11.0.2 then change line 23 in the docker-compose-driver.yaml to the correct ip
+
 ## Terminal 1
 
         cd ros_kortex

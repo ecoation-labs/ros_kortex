@@ -50,7 +50,7 @@ services:
     #           capabilities: [gpu]
     depends_on:
       - roscore
-    command: rosrun rviz rviz -d `gen3_move_it_config`/launch/moveit.rviz
+    command: rosrun rviz rviz -d "kortex_scripts/rviz/moveit.rviz"
 
 volumes:
   ros_kortex_demo:

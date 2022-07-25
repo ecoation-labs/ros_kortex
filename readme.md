@@ -10,11 +10,10 @@
 
         cd ros_kortex
         docker exec -it ros_kortex_gazebo_1 bash
-        roslaunch kortex_examples cartesian_poses_with_notifications_python.launch
-        roslaunch kortex_scripts moveit_example.launch
-        roslaunch kortex_examples waypoint_action_client_python.launch
-        roslaunch kortex_examples full_arm_movement_python.launch
-
+        rosrun kortex_scripts move_with_vias.py
+        rosrun kortex_scripts execute_plan_from_file.py
+        rosrun kortex_scripts execute_plan_from_file_fixed.py
+        
 # To RUN Real Arm:
 
 ### If the ip address of the arm is not 11.11.0.2 then change line 23 in the docker-compose-driver.yaml to the correct ip
@@ -28,11 +27,10 @@
 ## Terminal 2
 
         cd ros_kortex
-        docker exec -it ros_kortex_driver_1 bash
-        roslaunch kortex_examples cartesian_poses_with_notifications_python.launch
-        roslaunch kortex_scripts moveit_example.launch
-        roslaunch kortex_examples waypoint_action_client_python.launch
-        roslaunch kortex_examples full_arm_movement_python.launch
+        docker exec -it ros_kortex_gazebo_1 bash
+        rosrun kortex_scripts move_with_vias.py
+        rosrun kortex_scripts execute_plan_from_file.py
+        rosrun kortex_scripts execute_plan_from_file_fixed.py
 
 # ros_kortex
 ROS Kortex is the official ROS package to interact with Kortex and its related products. It is built upon the Kortex API, documentation for which can be found in the [GitHub Kortex repository](https://github.com/Kinovarobotics/kortex).

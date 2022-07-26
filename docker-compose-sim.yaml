@@ -1,0 +1,84 @@
+version: '3'
+
+services:
+  roscore:
+    image: osrf/ros:noetic-desktop-full
+    network_mode: host
+    command: stdbuf -o L roscore
+
+  sim:
+    build:
+      context: .
+      dockerfile: dockerfile
+    image: ros_kortex_demo_2/sim:latest
+    environment:
+      - DISPLAY=${DISPLAY}
+      - "QT_X11_NO_MITSHM=1"
+    volumes:
+      - "/tmp/.X11-unix:/tmp/.X11-unix:rw"
+      # - ros_kortex_demo_2:/ros_kortex
+    network_mode: host
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+    depends_on:
+      - roscore
+    command: roslaunch kortex_gazebo spawn_kortex_robot.launch dof:="6" gripper:="" start_rviz:="false" --wait
+
+  rviz:
+    build:
+      context: .
+      dockerfile: dockerfile
+    image: ros_kortex_demo_2/rviz:latest
+    environment:
+      - DISPLAY=${DISPLAY}
+      - "QT_X11_NO_MITSHM=1"
+    volumes:
+      - "/tmp/.X11-unix:/tmp/.X11-unix:rw"
+      # - ros_kortex_demo_2:/ros_kortex
+    network_mode: host
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+    depends_on:
+      - roscore
+    command: roslaunch kortex_scripts launch_rviz.launch --wait
+
+  rqt:
+    build:
+      context: .
+      dockerfile: dockerfile
+    image: ros_kortex_demo_2/rviz:latest
+    environment:
+      - DISPLAY=${DISPLAY}
+      - "QT_X11_NO_MITSHM=1"
+    volumes:
+      - "/tmp/.X11-unix:/tmp/.X11-unix:rw"
+      # - ros_kortex_demo_2:/ros_kortex
+    network_mode: host
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+    depends_on:
+      - roscore
+    command: rqt
+
+# volumes:
+#   ros_kortex_demo_2:
+#    driver: local
+#    driver_opts:
+#     o: bind
+#     type: none
+#     device: ../ros_kortex

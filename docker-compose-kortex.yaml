@@ -6,18 +6,17 @@ services:
     network_mode: host
     command: stdbuf -o L roscore
 
-  gazebo:
+  kortex:
     build:
       context: .
       dockerfile: dockerfile
-    image: ros_kortex_demo_2/gazebo:latest
+    image: ros_kortex_demo_2/kortex:latest
     environment:
       - DISPLAY=${DISPLAY}
       - "QT_X11_NO_MITSHM=1"
     volumes:
       - "/tmp/.X11-unix:/tmp/.X11-unix:rw"
-      - ros_kortex_demo_2:/ros_kortex
-    network_mode: host
+      # - ros_kortex_demo_2:/ros_kortex
     # deploy:
     #   resources:
     #     reservations:
@@ -25,9 +24,10 @@ services:
     #         - driver: nvidia
     #           count: 1
     #           capabilities: [gpu]
+    network_mode: host
     depends_on:
       - roscore
-    command: roslaunch kortex_gazebo spawn_kortex_robot.launch dof:="6" gripper:="" start_rviz:="false" --wait
+    command: roslaunch kortex_driver kortex_driver.launch dof:="6" gripper:="" ip_address:="${IPADRESS}" --wait
 
   rviz:
     build:
@@ -39,8 +39,7 @@ services:
       - "QT_X11_NO_MITSHM=1"
     volumes:
       - "/tmp/.X11-unix:/tmp/.X11-unix:rw"
-      - ros_kortex_demo_2:/ros_kortex
-    network_mode: host
+      # - ros_kortex_demo_2:/ros_kortex
     # deploy:
     #   resources:
     #     reservations:
@@ -48,9 +47,10 @@ services:
     #         - driver: nvidia
     #           count: 1
     #           capabilities: [gpu]
+    network_mode: host
     depends_on:
       - roscore
-    command: roslaunch kortex_scripts launch_rviz.launch
+    command: roslaunch kortex_scripts launch_rviz.launch --wait
 
   rqt:
     build:
@@ -62,8 +62,7 @@ services:
       - "QT_X11_NO_MITSHM=1"
     volumes:
       - "/tmp/.X11-unix:/tmp/.X11-unix:rw"
-      - ros_kortex_demo_2:/ros_kortex
-    network_mode: host
+      # - ros_kortex_demo_2:/ros_kortex
     # deploy:
     #   resources:
     #     reservations:
@@ -71,14 +70,15 @@ services:
     #         - driver: nvidia
     #           count: 1
     #           capabilities: [gpu]
+    network_mode: host
     depends_on:
       - roscore
     command: rqt
 
-volumes:
-  ros_kortex_demo_2:
-   driver: local
-   driver_opts:
-    o: bind
-    type: none
-    device: ../ros_kortex
+# volumes:
+#   ros_kortex_demo:
+#    driver: local
+#    driver_opts:
+#     o: bind
+#     type: none
+#     device: ../ros_kortex

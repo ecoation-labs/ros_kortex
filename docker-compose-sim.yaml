@@ -6,17 +6,17 @@ services:
     network_mode: host
     command: stdbuf -o L roscore
 
-  gazebo:
+  sim:
     build:
       context: .
       dockerfile: dockerfile
-    image: ros_kortex_demo/gazebo:latest
+    image: ros_kortex_demo/sim:latest
     environment:
       - DISPLAY=${DISPLAY}
       - "QT_X11_NO_MITSHM=1"
     volumes:
       - "/tmp/.X11-unix:/tmp/.X11-unix:rw"
-      - ros_kortex_demo:/ros_kortex
+      # - ros_kortex_demo:/ros_kortex
     network_mode: host
     # deploy:
     #   resources:
@@ -39,11 +39,18 @@ services:
       - "QT_X11_NO_MITSHM=1"
     volumes:
       - "/tmp/.X11-unix:/tmp/.X11-unix:rw"
-      - ros_kortex_demo:/ros_kortex
+      # - ros_kortex_demo:/ros_kortex
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
     network_mode: host
     depends_on:
       - roscore
-    command: roslaunch gen3_move_it_config moveit_rviz.launch config:="true"
+    command: roslaunch gen3_move_it_config moveit_rviz.launch config:="true" --wait
 
   rqt:
     build:
@@ -55,16 +62,23 @@ services:
       - "QT_X11_NO_MITSHM=1"
     volumes:
       - "/tmp/.X11-unix:/tmp/.X11-unix:rw"
-      - ros_kortex_demo:/ros_kortex
+      # - ros_kortex_demo:/ros_kortex
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
     network_mode: host
     depends_on:
       - roscore
     command: rqt 
 
-volumes:
-  ros_kortex_demo:
-   driver: local
-   driver_opts:
-    o: bind
-    type: none
-    device: ../ros_kortex
+# volumes:
+#   ros_kortex_demo:
+#    driver: local
+#    driver_opts:
+#     o: bind
+#     type: none
+#     device: ../ros_kortex

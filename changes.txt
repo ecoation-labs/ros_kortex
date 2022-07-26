@@ -1,0 +1,4 @@
+skip driver in .yaml
+change gazebo to sim in .yaml
+change driver continer name to something with more meaning - kortex
+make the ipadress an enviromental varable in a .env file

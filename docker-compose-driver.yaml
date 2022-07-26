@@ -10,13 +10,13 @@ services:
     build:
       context: .
       dockerfile: dockerfile
-    image: ros_kortex_demo/driver:latest
+    image: ros_kortex_demo_2/driver:latest
     environment:
       - DISPLAY=${DISPLAY}
       - "QT_X11_NO_MITSHM=1"
     volumes:
       - "/tmp/.X11-unix:/tmp/.X11-unix:rw"
-      - ros_kortex_demo:/ros_kortex
+      - ros_kortex_demo_2:/ros_kortex
     network_mode: host
     depends_on:
       - roscore
@@ -26,17 +26,33 @@ services:
     build:
       context: .
       dockerfile: dockerfile
-    image: ros_kortex_demo/rviz:latest
+    image: ros_kortex_demo_2/rviz:latest
     environment:
       - DISPLAY=${DISPLAY}
       - "QT_X11_NO_MITSHM=1"
     volumes:
       - "/tmp/.X11-unix:/tmp/.X11-unix:rw"
-      - ros_kortex_demo:/ros_kortex
+      - ros_kortex_demo_2:/ros_kortex
     network_mode: host
     depends_on:
       - roscore
-    command: rosrun rviz rviz -d `rospack find kortex_scripts`/rviz/real_arm_rviz_config_1.rviz
+    command: roslaunch kortex_scripts launch_rviz.launch
+
+  rqt:
+    build:
+      context: .
+      dockerfile: dockerfile
+    image: ros_kortex_demo_2/rviz:latest
+    environment:
+      - DISPLAY=${DISPLAY}
+      - "QT_X11_NO_MITSHM=1"
+    volumes:
+      - "/tmp/.X11-unix:/tmp/.X11-unix:rw"
+      - ros_kortex_demo_2:/ros_kortex
+    network_mode: host
+    depends_on:
+      - roscore
+    command: rqt
 
 volumes:
   ros_kortex_demo:

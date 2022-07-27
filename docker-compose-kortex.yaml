@@ -27,7 +27,7 @@ services:
     network_mode: host
     depends_on:
       - roscore
-    command: roslaunch kortex_driver kortex_driver.launch dof:="6" gripper:="" ip_address:="${IPADRESS}" start_rviz:="false" --wait
+    command: roslaunch kortex_driver kortex_driver.launch dof:="6" gripper:="" ip_address:="${IP_ADDRESS}" start_rviz:="false" --wait
 
   rviz:
     build:

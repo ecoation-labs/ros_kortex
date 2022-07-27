@@ -1,4 +1,5 @@
-# Replicate issue 1)
+# Replicate issue 1): No way to use vias in gazebo simulation
+### If the arm is invisible in gazebo turn on the collsion model to see it under the view tab 
 ## Terminal 1
 
         cd ros_kortex
@@ -7,12 +8,11 @@
 
 ## Terminal 2
 
-        cd ros_kortex
         docker exec -it ros_kortex_sim_1 bash
         roslaunch kortex_examples waypoint_action_client_python.launch
         roslaunch kortex_examples full_arm_movement_python.launch
 
-# Replicate issue 2)   
+# Replicate issue 2): Moveit works in sim not with real arm   
 ### CHANGE THE IP ADRESS IN THE .env FILE! default: 11.11.0.2
 
 ## Terminal 1
@@ -23,12 +23,10 @@
 
 ## Terminal 2
 
-        cd ros_kortex
-        docker exec -it ros_kortex-modified-noetic-devel-kortex_1 bash
+        docker exec -it ros_kortex_kortex_1 bash
         rosrun kortex_scripts move_with_vias.py
         
-# Replicate issue 3)
-
+# Replicate issue 3): Real arm takes 5+ seconds to plan a path.
 ## Terminal 1
 
         cd ros_kortex
@@ -37,8 +35,7 @@
 
 ## Terminal 2
 
-        cd ros_kortex
-        docker exec -it ros_kortex-modified-noetic-devel-kortex_1 bash
+        docker exec -it ros_kortex_kortex_1 bash
         rosrun kortex_scripts execute_plan_from_file_fixed.py
 
 # To RUN Simulation:

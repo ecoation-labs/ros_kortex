@@ -26,7 +26,7 @@ class KortexPathExecuter:
             with open(file_path, 'r') as file_open:
                 self.contents =  yaml.unsafe_load(file_open)
             
-            for i in range(2):
+            for i in range(1):
                 for x in range(len(self.contents)):
                     self.group.execute(self.contents[x])
 

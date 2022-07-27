@@ -32,7 +32,7 @@ class KortexPathExecuter:
 
     def goto_start(self):
         group_variable_values = self.group.get_current_joint_values()
-        group_variable_values[4] = -6.292549256015928
+        group_variable_values[3] = -0.00900409
         group_variable_values[5] = 7.85363892598919
         group_variable_values[4] = 0.941735
         group_variable_values[1] = 0.260177

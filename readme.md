@@ -36,7 +36,6 @@
 
         cd ros_kortex
         docker exec -it ros_kortex-modified-noetic-devel-kortex_1 bash
-        roslaunch kortex_examples cartesian_poses_with_notifications_python.launch
         
 ### Works 
         roslaunch kortex_examples moveit_example.launch
